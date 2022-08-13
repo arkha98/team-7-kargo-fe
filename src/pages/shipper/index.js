@@ -147,9 +147,9 @@ const Index = () => {
   return (
     <div className="p-16 flex flex-col">
       <div>
-        <div className="flex justify-between">
+        <div className="flex justify-between mb-4">
           <Button onClick={showModal}>Add Shipment</Button>
-          <div className="flex">
+          <div className="flex space-x-2">
             <Input placeholder="Search" />
             <Button>GO</Button>
           </div>

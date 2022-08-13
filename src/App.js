@@ -1,63 +1,63 @@
 import { useState, useEffect } from "react";
-import './App.scss';
-import 'antd/dist/antd.css';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import Login from './pages/login';
-import Shipper from './pages/shipper';
+import "./App.scss";
+import "antd/dist/antd.css";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import Login from "./pages/login";
+import Shipper from "./pages/shipper";
 import { AppProvider } from "./utils/AppContext";
 import SideMenu from "./components/SideMenu";
 import { Layout } from "antd";
-// import PrivateRoute from "./utils/PrivateRoute";
+import { ProtectedShipperRoute, PublicRoute } from "./utils/ProtectedRoute";
 
 function App() {
-  const location = useLocation()
-  const [role, setRole] = useState("shipper")
+  const location = useLocation();
+  const [role, setRole] = useState(sessionStorage.getItem("role")||"");
+
   useEffect(() => {
-    // if (!role) ("/login")
-    console.log(location)
-  }, [])
+    sessionStorage.setItem("role",role)
+  }, [role])
   return (
     <AppProvider value={{ role, setRole }}>
-
-
       <div className="flex min-h-screen">
         <Layout>
-        <Layout.Sider
-      breakpoint="lg"
-      collapsedWidth="0"
-      onBreakpoint={(broken) => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
-          >
-            
-          {location.pathname != "/login" && <SideMenu />}
-    </Layout.Sider>
+          {location.pathname != "/login" && (
+            <Layout.Sider breakpoint="lg">
+              <SideMenu />
+            </Layout.Sider>
+          )}
           <div className="w-full">
-
             <Routes>
-              <Route path="/login" element={<Login />}></Route>
-              {/* YOUR CODE HERE */}
+              
+              {/* {!role && <Route path="/login" element={}></Route>} */}
 
               <Route
-                exact
-                path="/"
-                element={<Navigate to="/login" />}
+                path="login"
+                element={
+                  <PublicRoute>
+
+                    <Login />
+                  </PublicRoute>}
               />
-              <Route path="/shipper" element={<Shipper />} />
+              <Route
+                path="shipper"
+                element={
+                  <ProtectedShipperRoute>
+                    <Shipper />
+                  </ProtectedShipperRoute>
+                }
+              />
 
-              {/* <Shipper /> */}
-              {/* </Route> */}
-              {/* <PrivateRoute path="/">
-            </PrivateRoute> */}
-
+              {/* <Route path="/shipper" element={<Shipper />} /> */}
             </Routes>
           </div>
         </Layout>
       </div>
-
     </AppProvider>
   );
 }

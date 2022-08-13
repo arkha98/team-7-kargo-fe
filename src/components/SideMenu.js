@@ -7,7 +7,7 @@ const SideMenu = () => {
 
   const items = [
     {
-      key:1,
+      key: 1,
       icon: ShoppingCartOutlined,
       label: "Dashboard"
     }
@@ -18,16 +18,17 @@ const SideMenu = () => {
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={[1]}
-        
+        selectedKeys={["1"]}
+        defaultSelectedKeys={["1"]}
+
       >
         {items.map((item, index) => (
 
-          <Menu.Item label={item.label} key={item.key}>
+          <Menu.Item key={item.key}>
             <div className="flex items-center">
 
-            <Icon component={item.icon} />
-            <span>{item.label}</span>
+              <Icon component={item.icon} />
+              <span>{item.label}</span>
             </div>
           </Menu.Item>
         ))}
