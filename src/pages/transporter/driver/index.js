@@ -1,26 +1,33 @@
-import { Space, Table, Tag } from "antd";
+import { Input, Table, Tag, Select } from "antd";
 import React from "react";
+const { Option } = Select;
+const { Search } = Input;
+
 const columns = [
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    render: (text) => <a>{text}</a>,
+    title: "License Number",
+    dataIndex: "license_number",
+    key: "license_number",
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
+    title: "Truck Type",
+    dataIndex: "truck_type",
+    key: "truck_type",
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
+    title: "Plate Type",
+    dataIndex: "plate_type",
+    key: "plate_type",
   },
   {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
+    title: "Production Year",
+    key: "production_year",
+    dataIndex: "production_year",
+  },
+  {
+    title: "Action",
+    key: "action",
+    dataIndex: "action",
     render: (_, { tags }) => (
       <>
         {tags.map((tag) => {
@@ -37,16 +44,6 @@ const columns = [
           );
         })}
       </>
-    ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
     ),
   },
 ];
@@ -73,12 +70,44 @@ const data = [
     tags: ["cool", "teacher"],
   },
 ];
+
+const onChange = (value) => {
+  console.log(`selected ${value}`);
+};
+
+const onSearchSelect = (value) => {
+  console.log("search:", value);
+};
+
 export default function Driver() {
+  const onSearch = (value) => console.log(value);
+
   return (
     <div className="p-12 h-full w-full flex flex-col space-y-5">
       <div>Driver</div>
+      <div className="flex justify-between">
+        <Select
+          showSearch
+          placeholder="Select a person"
+          optionFilterProp="children"
+          onChange={onChange}
+          onSearch={onSearchSelect}
+          filterOption={(input, option) =>
+            option.children.toLowerCase().includes(input.toLowerCase())
+          }
+        >
+          <Option value="jack">Jack</Option>
+          <Option value="lucy">Lucy</Option>
+          <Option value="tom">Tom</Option>
+        </Select>
+        <Search
+          placeholder="input search text"
+          onSearch={onSearch}
+          style={{ width: 200 }}
+          allowClear
+        />
+      </div>
       <Table columns={columns} dataSource={data} />
-
     </div>
   );
 }
