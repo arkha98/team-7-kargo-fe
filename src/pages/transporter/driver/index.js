@@ -1,5 +1,5 @@
 import { Input, Table, Select, Button, Modal, Form } from "antd";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 const { Option } = Select;
 const { Search } = Input;
 
@@ -103,13 +103,17 @@ export default function Driver() {
 
   // const getData = useCallback(async() => {
   //   try {
-  //     const res = await fetch('192.168.11.246:8080/driver/');
+  //     const res = await fetch('http://192.168.11.246:8080/driver');
   //     const data = await res.json();
   //     setDataDriver(data)
   //   } catch (error) {
   //     console.log(error)
   //   }
   // })
+
+  // useEffect(() => {
+  //   getData()
+  // }, [])
 
   // console.log(dataDriver)
 
@@ -170,6 +174,12 @@ export default function Driver() {
           </Form.Item>
           <Form.Item label="Phone Number">
             <Input placeholder="Phone Number" />
+          </Form.Item>
+          <Form.Item label="ID Card">
+            <Input type="file" placeholder="ID Card" />
+          </Form.Item>
+          <Form.Item label="Driver Lisence">
+            <Input type="file" placeholder="Driver Lisence" />
           </Form.Item>
         </Form>
       </Modal>

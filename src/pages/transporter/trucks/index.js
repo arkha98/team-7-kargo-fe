@@ -168,6 +168,12 @@ export default function Trucks() {
           <Form.Item label="Production Year">
             <Input placeholder="Production Year" />
           </Form.Item>
+          <Form.Item label="STNK">
+            <Input type="file" placeholder="STNK" />
+          </Form.Item>
+          <Form.Item label="KIR">
+            <Input type="file" placeholder="KIR" />
+          </Form.Item>
           {/* <Form.Item {...buttonItemLayout}>
             <Button type="primary">Save Unit</Button>
           </Form.Item> */}
