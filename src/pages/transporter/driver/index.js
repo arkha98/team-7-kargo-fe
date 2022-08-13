@@ -97,25 +97,25 @@ export default function Driver() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  // 192.168.11.246
+  const [dataDriver, setDataDriver] = useState([])
 
-  // const [dataDriver, setDataDriver] = useState();
+  const getListDriver = async () => {
+    try {
+      const req = await fetch("http://192.168.11.246:8080/driver/");
+      const res = await req.json();
 
-  // const getData = useCallback(async() => {
-  //   try {
-  //     const res = await fetch('http://192.168.11.246:8080/driver');
-  //     const data = await res.json();
-  //     setDataDriver(data)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // })
+      console.log(req);
+      if (res.status !== 200) throw "data not found";
+      setDataDriver(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getData()
-  // }, [])
-
-  // console.log(dataDriver)
+  useEffect(() => {
+    getListDriver()
+  }, [])
 
   return (
     <div className="h-full w-full flex flex-col space-y-5">
@@ -148,7 +148,7 @@ export default function Driver() {
           />
         </div>
       </div>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data}/>
       <Modal
         title="Add New Driver"
         visible={isModalVisible}
