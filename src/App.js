@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-route
 import Login from './pages/login';
 import Shipper from './pages/shipper';
 import { AppProvider } from "./utils/AppContext";
+import SideMenu from "./components/SideMenu";
 // import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
@@ -17,24 +18,28 @@ function App() {
     <AppProvider value={{ role, setRole }}>
 
       <BrowserRouter>
-        <div className="app">
-          <Routes>
-            <Route path="/login" element={<Login />}></Route>
-            {/* YOUR CODE HERE */}
+        <div className="flex min-h-screen">
+          <SideMenu />
+          <div className="w-full">
 
-            <Route
-              exact
-              path="/"
-              element={<Navigate to="/login" />}
-            />
-            <Route path="/shipper" element={<Shipper />} />
+            <Routes>
+              <Route path="/login" element={<Login />}></Route>
+              {/* YOUR CODE HERE */}
 
-            {/* <Shipper /> */}
-            {/* </Route> */}
-            {/* <PrivateRoute path="/">
+              <Route
+                exact
+                path="/"
+                element={<Navigate to="/login" />}
+              />
+              <Route path="/shipper" element={<Shipper />} />
+
+              {/* <Shipper /> */}
+              {/* </Route> */}
+              {/* <PrivateRoute path="/">
             </PrivateRoute> */}
 
-          </Routes>
+            </Routes>
+          </div>
         </div>
       </BrowserRouter>
     </AppProvider>
