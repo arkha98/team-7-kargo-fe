@@ -1,5 +1,5 @@
-import { Input, Table, Select } from "antd";
-import React from "react";
+import { Input, Table, Select, Button, Modal, Form } from "antd";
+import React, { useState } from "react";
 const { Option } = Select;
 const { Search } = Input;
 
@@ -64,6 +64,26 @@ const onSearchSelect = (value) => {
 
 export default function Trucks() {
   const onSearch = (value) => console.log(value);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setIsModalVisible(false);
+    }, 3000);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="p-12 h-full w-full flex flex-col space-y-5">
@@ -83,14 +103,64 @@ export default function Trucks() {
           <Option value="lucy">Lucy</Option>
           <Option value="tom">Tom</Option>
         </Select>
-        <Search
-          placeholder="input search text"
-          onSearch={onSearch}
-          style={{ width: 200 }}
-          allowClear
-        />
+        <div className="flex space-x-5">
+          <Button type="primary" onClick={showModal}>
+            Add Truck
+          </Button>
+
+          <Search
+            placeholder="input search text"
+            onSearch={onSearch}
+            style={{ width: 200 }}
+            allowClear
+          />
+        </div>
       </div>
       <Table columns={columns} dataSource={data} />
+      <Modal
+        title="Add New Unit"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            Return
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={loading}
+            onClick={handleOk}
+          >
+            Submit
+          </Button>,
+        ]}
+      >
+        <Form>
+          <Form.Item label="License Number">
+            <Input placeholder="License Number" />
+          </Form.Item>
+          <Form.Item label="License Type">
+            <Select>
+              <Select.Option value="yellow">Yellow</Select.Option>
+              <Select.Option value="black">Black</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item label="Truck Type">
+            <Select>
+              <Select.Option value="tronton">Tronton</Select.Option>
+              <Select.Option value="box">Box</Select.Option>
+              <Select.Option value="pick_up">Pick Up</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item label="Production Year">
+            <Input placeholder="Production Year" />
+          </Form.Item>
+          {/* <Form.Item {...buttonItemLayout}>
+            <Button type="primary">Save Unit</Button>
+          </Form.Item> */}
+        </Form>
+      </Modal>
     </div>
   );
 }
