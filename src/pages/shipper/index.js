@@ -148,15 +148,15 @@ const Index = () => {
     <div className="p-16 flex flex-col">
       <div>
         <div className="flex justify-between mb-4">
-          <Button onClick={showModal}>Add Shipment</Button>
+          <Button onClick={showModal} type="primary">Add Shipment</Button>
           <div className="flex space-x-2">
             <Input placeholder="Search" />
-            <Button>GO</Button>
+            <Button type="primary">GO</Button>
           </div>
         </div>
       </div>
       <Modal
-        title="Allocate"
+        title="Update Status"
         visible={modalStatus}
         onOk={() => setModalStatus(false)}
         onCancel={() => setModalStatus(false)}

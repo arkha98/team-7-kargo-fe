@@ -33,7 +33,7 @@ function App() {
           )}
           <div className="w-full">
             <Routes>
-              
+              <Route path="/" element={<Navigate to="/login" replace/>} />
               {/* {!role && <Route path="/login" element={}></Route>} */}
 
               <Route
