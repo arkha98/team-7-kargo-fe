@@ -1,5 +1,5 @@
-import { Input, Table, Select } from "antd";
-import React from "react";
+import { Input, Table, Select, Button, Modal, Form } from "antd";
+import React, { useState } from "react";
 const { Option } = Select;
 const { Search } = Input;
 
@@ -64,6 +64,26 @@ const onSearchSelect = (value) => {
 
 export default function Driver() {
   const onSearch = (value) => console.log(value);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setIsModalVisible(false);
+    }, 3000);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="p-12 h-full w-full flex flex-col space-y-5">
@@ -83,14 +103,51 @@ export default function Driver() {
           <Option value="lucy">Lucy</Option>
           <Option value="tom">Tom</Option>
         </Select>
-        <Search
-          placeholder="input search text"
-          onSearch={onSearch}
-          style={{ width: 200 }}
-          allowClear
-        />
+        <div className="flex space-x-5">
+          <Button type="primary" onClick={showModal}>
+            Add Driver
+          </Button>
+
+          <Search
+            placeholder="input search text"
+            onSearch={onSearch}
+            style={{ width: 200 }}
+            allowClear
+          />
+        </div>
       </div>
       <Table columns={columns} dataSource={data} />
+      <Modal
+        title="Add New Driver"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            Return
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={loading}
+            onClick={handleOk}
+          >
+            Submit
+          </Button>,
+        ]}
+      >
+        <Form>
+          <Form.Item label="Driver Name">
+            <Input placeholder="Driver Name" />
+          </Form.Item>
+          <Form.Item label="Phone Number">
+            <Input placeholder="Phone Number" />
+          </Form.Item>
+          {/* <Form.Item {...buttonItemLayout}>
+            <Button type="primary">Save Unit</Button>
+          </Form.Item> */}
+        </Form>
+      </Modal>
     </div>
   );
 }
