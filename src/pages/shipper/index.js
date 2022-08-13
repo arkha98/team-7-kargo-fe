@@ -35,53 +35,6 @@ const shipmentStatus = [
     label: "Completed",
   },
 ];
-const data = [
-  {
-    shipment_number: "DO-722947",
-    license: "B 4822 UTT",
-    driver_name: "Budi",
-    origin: "Jakarta",
-    destination: "DO-Surabaya",
-    loading_date: "21 Agustus",
-    status: "Ongoing to shipment",
-  },
-  {
-    shipment_number: "DO-722947",
-    license: "B 4822 UTT",
-    driver_name: "Budi",
-    origin: "Jakarta",
-    destination: "DO-Surabaya",
-    loading_date: "21 Agustus",
-    status: "Ongoing to shipment",
-  },
-  {
-    shipment_number: "DO-722947",
-    license: "B 4822 UTT",
-    driver_name: "Budi",
-    origin: "Jakarta",
-    destination: "DO-Surabaya",
-    loading_date: "21 Agustus",
-    status: "Ongoing to shipment",
-  },
-  {
-    shipment_number: "DO-722947",
-    license: "B 4822 UTT",
-    driver_name: "Budi",
-    origin: "Jakarta",
-    destination: "DO-Surabaya",
-    loading_date: "21 Agustus",
-    status: "Ongoing to shipment",
-  },
-  {
-    shipment_number: "DO-722947",
-    license: "B 4822 UTT",
-    driver_name: "Budi",
-    origin: "Jakarta",
-    destination: "DO-Surabaya",
-    loading_date: "21 Agustus",
-    status: "Ongoing to shipment",
-  },
-];
 
 const Index = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -93,6 +46,7 @@ const Index = () => {
   const [listTruck, setListTruck] = useState([]);
   const [listDriver, setListDriver] = useState([]);
   const [listShipment, setListShipment] = useState([]);
+  const [selectedRow,setSelectedRow]=useState({})
 
   useEffect(() => {
     getListTruck();
@@ -100,15 +54,33 @@ const Index = () => {
     getListShipment()
   }, []);
 
+  const updateStatusShipment = async(e) => {
+    try {
+      console.log(e)
+      const body = {
+        ...selectedRow,
+        ...e
+        
+      }
+      const req = await fetch("http://192.168.11.246:8080/shipment/", {
+        method: "PUT",
+        body:JSON.stringify(body)
+      });
+      const res = await req.json();
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const getListTruck = async () => {
     try {
       const req = await fetch("http://192.168.11.246:8080/truck/");
       const res = await req.json();
 
       // console.log(req);
-      if (res.status !== 200) throw "data not found";
+      if (res.status != 200) throw "data not found";
       setListTruck(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -119,9 +91,8 @@ const Index = () => {
       const res = await req.json();
 
       // console.log(req);
-      if (res.status !== 200) throw "data not found";
+      if (res.status != 200) throw "data not found";
       setListDriver(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -132,26 +103,15 @@ const Index = () => {
       const res = await req.json();
 
       // console.log(req);
-      if (res.status !== 200) throw "data not found";
+      if (res.status != 200) throw "data not found";
       setListShipment(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } catch (error) {
       console.log(error);
     }
   };
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
-  };
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
-  const onAllocate = () => {
-    setModalAllocate(true);
   };
 
   const menuItems = [
@@ -187,7 +147,7 @@ const Index = () => {
     },
     {
       title: "Driver's Name",
-      dataIndex: "driver_name",
+      dataIndex: "driver",
     },
     {
       title: "Origin",
@@ -209,9 +169,9 @@ const Index = () => {
     {
       title: "Action",
       dataIndex: "english",
-      render: () => (
-        <Dropdown overlay={menu}>
-          <Button>Action</Button>
+      render: (_,data) => (
+        <Dropdown overlay={menu} trigger={['click']}>
+          <Button onClick={()=>setSelectedRow(data)}>Action</Button>
         </Dropdown>
       ),
     },
@@ -220,8 +180,25 @@ const Index = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
+  const handleAddShipment = async (e) => {
+    try {
+      // const body = {
+      //   ...e,
+      //   loading_date:e._id
+      // }
+      // console.log(e)
+      // console.log(body)
+      const req = await fetch("http://192.168.11.246:8080/shipment/create", {
+        method: "POST",
+        body:JSON.stringify(e)
+      })
+      const res = await req.json()
+      console.log(res)
+      setIsModalVisible(false)
+    } catch (error) {
+      console.log()
+    }
+    // setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -243,8 +220,9 @@ const Index = () => {
       <Modal
         title="Update Status"
         visible={modalStatus}
-        onOk={() => setModalStatus(false)}
+        
         onCancel={() => setModalStatus(false)}
+        footer={[null]}
       >
         <Form
           name="basic"
@@ -257,9 +235,11 @@ const Index = () => {
           initialValues={{
             remember: true,
           }}
+          onFinish={(e) => updateStatusShipment(e)}
         >
-          <Form.Item label="Status">
+          <Form.Item label="Status" name="status">
             <Select
+              name="status"
               showSearch
               filterOption={(input, option) =>
                 option.children.includes(input)
@@ -273,11 +253,21 @@ const Index = () => {
               }
             >
               {shipmentStatus.map((item) => (
-                <Select.Option value="demo">
+                <Select.Option value={item.label}>
                   {item.label}
                 </Select.Option>
               ))}
             </Select>
+          </Form.Item>
+            <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
           </Form.Item>
         </Form>
       </Modal>
@@ -349,8 +339,9 @@ const Index = () => {
       <Modal
         title="Add Shipment"
         visible={isModalVisible}
-        onOk={handleOk}
+        // onOk={handleOk}
         onCancel={handleCancel}
+        footer={[null]}
       >
         <Form
           name="basic"
@@ -362,19 +353,19 @@ const Index = () => {
           }}
           initialValues={{
             remember: true,
-            date: moment(),
+            loading_date: moment(),
           }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
+          onFinish={(e)=>handleAddShipment(e)}
+          onFinishFailed={()=>{}}
           autoComplete="off"
         >
           <Form.Item
             label="Origin"
-            name="username"
+            name="origin"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Please input Origin!",
               },
             ]}
           >
@@ -387,13 +378,13 @@ const Index = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Please input Destination!",
               },
             ]}
           >
             <Input />
           </Form.Item>
-          <Form.Item label="Loading Date" name="date">
+          <Form.Item label="Loading Date" name="loading_date">
             {/* <Input.Password /> */}
             <DatePicker format="YYYY/MM/DD" />
           </Form.Item>
@@ -410,7 +401,7 @@ const Index = () => {
           </Form.Item>
         </Form>
       </Modal>
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table columns={columns} dataSource={listShipment} onChange={onChange} />
     </div>
   );
 };
