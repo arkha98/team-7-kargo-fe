@@ -1,6 +1,9 @@
-import { useCallback } from "react";
+import { useCallback, useContext, useState, useEffect } from "react";
 import { Button, Select, Space, Typography } from 'antd';
 import './style.scss';
+import AppContext from "../../utils/AppContext";
+import { useNavigate,Navigate } from "react-router-dom";
+import KargoLogo from '../../assets/logo-dark.png'
 
 const options = [
   { label: 'Transporter', value: 'transporter' },
@@ -9,21 +12,33 @@ const options = [
 
 // This is mostly cover what ticket #1 is all about
 function App() {
+  const navigate = useNavigate()
+  const { role, setRole } = useContext(AppContext)
+  const [select, setSelected] = useState("")
+  useEffect(() => {
+  if (role === "shipper") return <Navigate to="/shipper" replace/>
+  // if (role === "transport") return navigate("/transport")
+  }, [navigate,role])
   const handleLogin = useCallback(() => {
-    {/* YOUR CODE HERE */}
+    if (!select) return;
+    setRole(select)
+    // if (select === "shipper") return navigate("/shipper")
+    if (select === "shipper") return navigate("/shipper")
   })
   return (
     <div className="login">
-      <div className="login-header">
-        <div className="login-header-wrapper">
+      <div className="login-header w-[200px]">
+        <div className="login-header-wrapper w-full flex flex-col">
           <Space direction="vertical">
-            <Typography.Title code>Kargo TMS</Typography.Title>
-            <div className="bg-red-200">
-              Log in as <Select placeholder="User" options={options} />
+            <img src={KargoLogo} alt="logo" width={200} className="mx-auto" />
+            <div className="text-lg text-black mt-4">
+              <span className="mr-4">Log in as</span> <Select
+                className="w-[100px]"
+                onChange={(e) => setSelected(e)}
+                placeholder="Pick Role" options={options} />
             </div>
-            <div>
-              <Button onClick={handleLogin}type="primary">Login</Button>
-            </div>
+            <Button className="mt-8" block onClick={handleLogin} type="primary" disabled={!select}>Login</Button>
+
           </Space>
         </div>
       </div>
