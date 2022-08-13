@@ -1,5 +1,5 @@
 import { Input, Table, Select, Button, Modal, Form } from "antd";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 const { Option } = Select;
 const { Search } = Input;
 
@@ -96,6 +96,22 @@ export default function Driver() {
 
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+
+  // 192.168.11.246
+
+  // const [dataDriver, setDataDriver] = useState();
+
+  // const getData = useCallback(async() => {
+  //   try {
+  //     const res = await fetch('192.168.11.246:8080/driver/');
+  //     const data = await res.json();
+  //     setDataDriver(data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // })
+
+  // console.log(dataDriver)
 
   return (
     <div className="h-full w-full flex flex-col space-y-5">
