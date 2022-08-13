@@ -32,25 +32,22 @@ const columns = [
 ];
 const data = [
   {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
+    license_number: "1",
+    truck_type: "John Brown",
+    production_year: 32,
+    plate_type: "New York No. 1 Lake Park",
   },
   {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
+    license_number: "2",
+    truck_type: "Jim Green",
+    production_year: 42,
+    plate_type: "London No. 1 Lake Park",
   },
   {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
+    license_number: "3",
+    truck_type: "Joe Black",
+    production_year: 32,
+    plate_type: "Sidney No. 1 Lake Park",
   },
 ];
 
@@ -91,7 +88,7 @@ export default function Trucks() {
       <div className="flex justify-between">
         <Select
           showSearch
-          placeholder="Select a person"
+          placeholder="Truck Type"
           optionFilterProp="children"
           onChange={onChange}
           onSearch={onSearchSelect}
@@ -116,7 +113,22 @@ export default function Trucks() {
           />
         </div>
       </div>
-      <Table columns={columns} dataSource={data} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        expandable={{
+          expandedRowRender: (record) => (
+            <p
+              style={{
+                margin: 0,
+              }}
+            >
+              {record.description}
+            </p>
+          ),
+          rowExpandable: (record) => record.name !== "Not Expandable",
+        }}
+      />
       <Modal
         title="Add New Unit"
         visible={isModalVisible}

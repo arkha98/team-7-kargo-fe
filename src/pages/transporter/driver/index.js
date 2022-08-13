@@ -1,6 +1,6 @@
 import { Input, Table, Select, Button, Modal, Form } from "antd";
 import React, { useState } from "react";
-const { Option } = Select;
+// const { Option } = Select;
 const { Search } = Input;
 
 const columns = [
@@ -32,35 +32,32 @@ const columns = [
 ];
 const data = [
   {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
+    license_number: "1",
+    truck_type: "John Brown",
+    production_year: 32,
+    plate_type: "New York No. 1 Lake Park",
   },
   {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
+    license_number: "2",
+    truck_type: "Jim Green",
+    production_year: 42,
+    plate_type: "London No. 1 Lake Park",
   },
   {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
+    license_number: "3",
+    truck_type: "Joe Black",
+    production_year: 32,
+    plate_type: "Sidney No. 1 Lake Park",
   },
 ];
 
-const onChange = (value) => {
-  console.log(`selected ${value}`);
-};
+// const onChange = (value) => {
+//   console.log(`selected ${value}`);
+// };
 
-const onSearchSelect = (value) => {
-  console.log("search:", value);
-};
+// const onSearchSelect = (value) => {
+//   console.log("search:", value);
+// };
 
 export default function Driver() {
   const onSearch = (value) => console.log(value);
@@ -88,8 +85,8 @@ export default function Driver() {
   return (
     <div className="p-12 h-full w-full flex flex-col space-y-5">
       <div>Driver</div>
-      <div className="flex justify-between">
-        <Select
+      <div className="flex justify-end">
+        {/* <Select
           showSearch
           placeholder="Select a person"
           optionFilterProp="children"
@@ -102,7 +99,7 @@ export default function Driver() {
           <Option value="jack">Jack</Option>
           <Option value="lucy">Lucy</Option>
           <Option value="tom">Tom</Option>
-        </Select>
+        </Select> */}
         <div className="flex space-x-5">
           <Button type="primary" onClick={showModal}>
             Add Driver
@@ -143,9 +140,6 @@ export default function Driver() {
           <Form.Item label="Phone Number">
             <Input placeholder="Phone Number" />
           </Form.Item>
-          {/* <Form.Item {...buttonItemLayout}>
-            <Button type="primary">Save Unit</Button>
-          </Form.Item> */}
         </Form>
       </Modal>
     </div>
