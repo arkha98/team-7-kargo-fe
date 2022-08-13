@@ -1,9 +1,11 @@
-import Icon, { ShoppingCartOutlined } from '@ant-design/icons';
+import Icon, { ShoppingCartOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-import React, { Component } from 'react';
-
+import React, { Component, useContext } from 'react';
+import AppContext from "../utils/AppContext";
+import { useNavigate } from "react-router-dom";
 const SideMenu = () => {
-
+  const navigate = useNavigate()
+  const { role, setRole } = useContext(AppContext)
 
   const items = [
     {
@@ -13,6 +15,10 @@ const SideMenu = () => {
     }
   ]
 
+  const handleLogout = () => {
+    setRole("")
+    navigate("/login")
+  }
   return (
     <>
       <Menu
@@ -20,7 +26,6 @@ const SideMenu = () => {
         mode="inline"
         selectedKeys={["1"]}
         defaultSelectedKeys={["1"]}
-
       >
         {items.map((item, index) => (
 
@@ -32,6 +37,13 @@ const SideMenu = () => {
             </div>
           </Menu.Item>
         ))}
+        <div onClick={handleLogout} className="cursor-pointer absolute bottom-0 px-8 py-4 hover:bg-blue-900 w-full">
+          <div className="flex items-center space-x-4">
+
+            <Icon component={LogoutOutlined} />
+            <span>Logout</span>
+          </div>
+        </div>
 
       </Menu>
     </>
