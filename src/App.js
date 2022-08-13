@@ -14,6 +14,9 @@ import { AppProvider } from "./utils/AppContext";
 import SideMenu from "./components/SideMenu";
 import { Layout } from "antd";
 import { ProtectedShipperRoute, PublicRoute } from "./utils/ProtectedRoute";
+import Transporter from "./pages/transporter";
+import Driver from './pages/transporter/driver';
+import Trucks from './pages/transporter/trucks';
 
 function App() {
   const location = useLocation();
@@ -52,6 +55,9 @@ function App() {
                   </ProtectedShipperRoute>
                 }
               />
+              <Route path="/transporter" element={<Transporter />} />
+          <Route path="/transporter/driver" element={<Driver />} />
+          <Route path="/transporter/trucks" element={<Trucks />} />
 
               {/* <Route path="/shipper" element={<Shipper />} /> */}
             </Routes>
