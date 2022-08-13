@@ -1,0 +1,30 @@
+.login {
+  background-color: #282c34;
+
+  &-header {
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+
+    &-wrapper {
+      text-align: center;
+
+      h1.ant-typography {
+        color: white;
+      }
+    }
+  }
+
+  &-footer {
+    color: white;
+    padding: 16px 0;
+    text-align: center;
+
+    a {
+      color: inherit;
+    }
+  }
+}
