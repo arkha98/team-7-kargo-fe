@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Driver from "./driver";
 import Trucks from "./trucks";
+import { useLocation } from "react-router-dom";
 
 export default function Transporter() {
-  const [select, setSelect] = useState("Driver");
+  const [select, setSelect] = useState("driver");
+  // const [location, setLocation] = useLocation();
+
+  // const handleSelect = useCallback((e) => {
+  //   setSelect(e);
+  //   setLocation(`/transporter/${e}`)
+  // })
 
   return (
     <div className="h-full w-full p-12 flex flex-col space-y-12">
@@ -21,7 +28,7 @@ export default function Transporter() {
           </button>
           <button
             className={`border px-8 py-2 rounded-lg ${
-              select !== "driver" ? "bg-blue-500 text-white" : "bg-white"
+              select === "driver" ? "bg-white" : "bg-blue-500 text-white"
             }`}
             value="trucks"
             onClick={(e) => setSelect(e.target.value)}
