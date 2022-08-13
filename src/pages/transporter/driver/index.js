@@ -1,34 +1,84 @@
+import { Space, Table, Tag } from "antd";
+import React from "react";
+const columns = [
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    render: (text) => <a>{text}</a>,
+  },
+  {
+    title: "Age",
+    dataIndex: "age",
+    key: "age",
+  },
+  {
+    title: "Address",
+    dataIndex: "address",
+    key: "address",
+  },
+  {
+    title: "Tags",
+    key: "tags",
+    dataIndex: "tags",
+    render: (_, { tags }) => (
+      <>
+        {tags.map((tag) => {
+          let color = tag.length > 5 ? "geekblue" : "green";
+
+          if (tag === "loser") {
+            color = "volcano";
+          }
+
+          return (
+            <Tag color={color} key={tag}>
+              {tag.toUpperCase()}
+            </Tag>
+          );
+        })}
+      </>
+    ),
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: (_, record) => (
+      <Space size="middle">
+        <a>Invite {record.name}</a>
+        <a>Delete</a>
+      </Space>
+    ),
+  },
+];
+const data = [
+  {
+    key: "1",
+    name: "John Brown",
+    age: 32,
+    address: "New York No. 1 Lake Park",
+    tags: ["nice", "developer"],
+  },
+  {
+    key: "2",
+    name: "Jim Green",
+    age: 42,
+    address: "London No. 1 Lake Park",
+    tags: ["loser"],
+  },
+  {
+    key: "3",
+    name: "Joe Black",
+    age: 32,
+    address: "Sidney No. 1 Lake Park",
+    tags: ["cool", "teacher"],
+  },
+];
 export default function Driver() {
   return (
     <div className="p-12 h-full w-full flex flex-col space-y-5">
       <div>Driver</div>
-      <table className="w-full">
-        <thead className=" ">
-          <tr className="border ">
-            <th className="">License Number</th>
-            <th className="">Truck Type</th>
-            <th className="">Plate Type</th>
-            <th className="">Production Year</th>
-            <th className="">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="border">
-            <td>License</td>
-            <td>Truck</td>
-            <td>Plate</td>
-            <td>Production</td>
-            <td>Action</td>
-          </tr>
-          <tr className="border">
-            <td>License</td>
-            <td>Truck</td>
-            <td>Plate</td>
-            <td>Production</td>
-            <td>Action</td>
-          </tr>
-        </tbody>
-      </table>
+      <Table columns={columns} dataSource={data} />
+
     </div>
   );
 }
