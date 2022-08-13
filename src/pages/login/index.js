@@ -24,6 +24,7 @@ function App() {
     setRole(select)
     // if (select === "shipper") return navigate("/shipper")
     if (select === "shipper") return navigate("/shipper")
+    if (select === "transporter") return navigate("/transporter")
   })
   return (
     <div className="login">

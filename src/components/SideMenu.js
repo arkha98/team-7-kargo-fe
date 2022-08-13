@@ -12,7 +12,17 @@ const SideMenu = () => {
       key: 1,
       icon: ShoppingCartOutlined,
       label: "Dashboard"
-    }
+    },
+    {
+      key: 2,
+      icon: ShoppingCartOutlined,
+      label: "Transporter"
+    },
+    {
+      key: 3,
+      icon: ShoppingCartOutlined,
+      label: "Shipment"
+    },
   ]
 
   const handleLogout = () => {

@@ -1,84 +1,188 @@
-import { Space, Table, Tag } from "antd";
-import React from "react";
+import { Input, Table, Select, Button, Modal, Form } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
+const { Option } = Select;
+const { Search } = Input;
+
 const columns = [
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    render: (text) => <a>{text}</a>,
+    title: "Driver Name",
+    dataIndex: "driver_name",
+    key: "driver_name",
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
+    title: "Phone Number",
+    dataIndex: "phone_number",
+    key: "phone_number",
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
+    title: "Created at",
+    dataIndex: "create_at",
+    key: "create_at",
   },
   {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-
-          if (tag === "loser") {
-            color = "volcano";
-          }
-
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
+    title: "Status",
+    key: "status",
+    dataIndex: "status",
   },
   {
     title: "Action",
     key: "action",
+    dataIndex: "action",
     render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
+      <Select
+        showSearch
+        placeholder="Update"
+        optionFilterProp="children"
+        onChange={onChange}
+        onSearch={onSearchSelect}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().includes(input.toLowerCase())
+        }
+      >
+        <Option value="update">Update</Option>
+        <Option value="delete">Delete</Option>
+      </Select>
     ),
   },
 ];
 const data = [
   {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
+    phone_number: "1",
+    driver_name: "John Brown",
+    create_at: 32,
+    status: "Active",
   },
   {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
+    phone_number: "2",
+    driver_name: "Jim Green",
+    create_at: 42,
+    status: "Active",
   },
   {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
+    phone_number: "3",
+    driver_name: "Joe Black",
+    create_at: 32,
+    status: "Inactive",
   },
 ];
-export default function Driver() {
-  return (
-    <div className="p-12 h-full w-full flex flex-col space-y-5">
-      <div>Driver</div>
-      <Table columns={columns} dataSource={data} />
 
+const onChange = (value) => {
+  console.log(`selected ${value}`);
+};
+
+const onSearchSelect = (value) => {
+  console.log("search:", value);
+};
+
+export default function Driver() {
+  const onSearch = (value) => console.log(value);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setIsModalVisible(false);
+    }, 3000);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+
+  const [dataDriver, setDataDriver] = useState([])
+
+  const getListDriver = async () => {
+    try {
+      const req = await fetch("http://192.168.11.246:8080/driver/");
+      const res = await req.json();
+
+      console.log(req);
+      if (res.status !== 200) throw "data not found";
+      setDataDriver(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getListDriver()
+  }, [])
+
+  return (
+    <div className="h-full w-full flex flex-col space-y-5">
+      <div>Driver</div>
+      <div className="flex justify-end">
+        {/* <Select
+          showSearch
+          placeholder="Select a person"
+          optionFilterProp="children"
+          onChange={onChange}
+          onSearch={onSearchSelect}
+          filterOption={(input, option) =>
+            option.children.toLowerCase().includes(input.toLowerCase())
+          }
+        >
+          <Option value="jack">Jack</Option>
+          <Option value="lucy">Lucy</Option>
+          <Option value="tom">Tom</Option>
+        </Select> */}
+        <div className="flex space-x-5">
+          <Button type="primary" onClick={showModal}>
+            Add Driver
+          </Button>
+
+          <Search
+            placeholder="input search text"
+            onSearch={onSearch}
+            style={{ width: 200 }}
+            allowClear
+          />
+        </div>
+      </div>
+      <Table columns={columns} dataSource={data}/>
+      <Modal
+        title="Add New Driver"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            Return
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={loading}
+            onClick={handleOk}
+          >
+            Submit
+          </Button>,
+        ]}
+      >
+        <Form>
+          <Form.Item label="Driver Name">
+            <Input placeholder="Driver Name" />
+          </Form.Item>
+          <Form.Item label="Phone Number">
+            <Input placeholder="Phone Number" />
+          </Form.Item>
+          <Form.Item label="ID Card">
+            <Input type="file" placeholder="ID Card" />
+          </Form.Item>
+          <Form.Item label="Driver Lisence">
+            <Input type="file" placeholder="Driver Lisence" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }

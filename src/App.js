@@ -56,8 +56,8 @@ function App() {
                 }
               />
               <Route path="/transporter" element={<Transporter />} />
-          <Route path="/transporter/driver" element={<Driver />} />
-          <Route path="/transporter/trucks" element={<Trucks />} />
+          {/* <Route path="/transporter/driver" element={<Driver />} />
+          <Route path="/transporter/trucks" element={<Trucks />} /> */}
 
               {/* <Route path="/shipper" element={<Shipper />} /> */}
             </Routes>
