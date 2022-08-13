@@ -98,7 +98,7 @@ export default function Trucks() {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="p-12 h-full w-full flex flex-col space-y-5">
+    <div className="h-full w-full flex flex-col space-y-5">
       <div>Trucks</div>
       <div className="flex justify-between">
         <Select

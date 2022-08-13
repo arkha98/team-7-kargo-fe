@@ -98,7 +98,7 @@ export default function Driver() {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="p-12 h-full w-full flex flex-col space-y-5">
+    <div className="h-full w-full flex flex-col space-y-5">
       <div>Driver</div>
       <div className="flex justify-end">
         {/* <Select
