@@ -1,25 +1,27 @@
 .login {
-  background-color: #282c34;
+  background-color: #ffffff;
 
   &-header {
     align-items: center;
-    color: white;
+    color: rgb(92, 162, 253);
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: 100vh;
+    width:50%;
+    margin: auto;
 
     &-wrapper {
       text-align: center;
-
+      
       h1.ant-typography {
-        color: white;
+        color: rgb(92, 162, 253);
       }
     }
   }
 
   &-footer {
-    color: white;
+    color: rgb(92, 162, 253);
     padding: 16px 0;
     text-align: center;
 
