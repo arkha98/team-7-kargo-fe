@@ -1,4 +1,4 @@
-import { Input, Table, Tag, Select } from "antd";
+import { Input, Table, Select } from "antd";
 import React from "react";
 const { Option } = Select;
 const { Search } = Input;
@@ -28,23 +28,6 @@ const columns = [
     title: "Action",
     key: "action",
     dataIndex: "action",
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-
-          if (tag === "loser") {
-            color = "volcano";
-          }
-
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
   },
 ];
 const data = [
