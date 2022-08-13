@@ -13,6 +13,20 @@ import {
 } from "antd";
 import moment from "moment";
 
+const shipmentStatus = [
+  {
+    value: 1,
+    label: "Ongoing to Origin"
+  },
+  {
+    value: 2,
+    label: "At Origin"
+  },
+  {
+    value: 3,
+    label: "Ongoing to Destination"
+  },
+]
 const data = [
   {
     key: "1",
@@ -47,6 +61,7 @@ const data = [
 const Index = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalAllocate, setModalAllocate] = useState(false);
+  const [modalStatus, setModalStatus] = useState(false);
   const dateFormat = "YYYY-MM-DD";
   const today = moment().format("DD-MM-YYY");
   const [date, setDate] = useState(today);
@@ -69,15 +84,12 @@ const Index = () => {
     {
       key: "1",
       label: "Allocate",
-      action: onAllocate
+      action: () => setModalAllocate(true)
     },
     {
       key: "2",
-      label: "2nd item",
-    },
-    {
-      key: "3",
-      label: "3rd item",
+      label: "UpdateStatus",
+      action: () => setModalStatus(true)
     },
   ];
   const menu = (
@@ -145,6 +157,42 @@ const Index = () => {
       </div>
       <Modal
         title="Allocate"
+        visible={modalStatus}
+        onOk={() => setModalStatus(false)}
+        onCancel={() => setModalStatus(false)}
+      >
+        <Form name="basic"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          initialValues={{
+            remember: true,
+          }}>
+
+          <Form.Item label="Status">
+            <Select>
+              {shipmentStatus.map(item =>
+                <Select.Option value="demo">{item.label}</Select.Option>
+              )}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="Allocate"
         visible={modalAllocate}
         onOk={() => setModalAllocate(false)}
         onCancel={() => setModalAllocate(false)}
@@ -162,15 +210,15 @@ const Index = () => {
           <Form.Item label="Truck">
             <Select>
               {["Truck 1", "Truck 2"].map(item =>
-              <Select.Option value="demo">{item}</Select.Option>
-                )}
+                <Select.Option value="demo">{item}</Select.Option>
+              )}
             </Select>
           </Form.Item>
           <Form.Item label="Driver">
             <Select>
               {["Driver 1", "Driver 2"].map(item =>
-              <Select.Option value="demo">{item}</Select.Option>
-                )}
+                <Select.Option value="demo">{item}</Select.Option>
+              )}
             </Select>
           </Form.Item>
           <Form.Item
