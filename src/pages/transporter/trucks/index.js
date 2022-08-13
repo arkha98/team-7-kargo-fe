@@ -28,6 +28,21 @@ const columns = [
     title: "Action",
     key: "action",
     dataIndex: "action",
+    render: (_, record) => (
+      <Select
+        showSearch
+        placeholder="Update"
+        optionFilterProp="children"
+        onChange={onChange}
+        onSearch={onSearchSelect}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().includes(input.toLowerCase())
+        }
+      >
+        <Option value="update">Update</Option>
+        <Option value="delete">Delete</Option>
+      </Select>
+    ),
   },
 ];
 const data = [
@@ -113,22 +128,7 @@ export default function Trucks() {
           />
         </div>
       </div>
-      <Table
-        columns={columns}
-        dataSource={data}
-        expandable={{
-          expandedRowRender: (record) => (
-            <p
-              style={{
-                margin: 0,
-              }}
-            >
-              {record.description}
-            </p>
-          ),
-          rowExpandable: (record) => record.name !== "Not Expandable",
-        }}
-      />
+      <Table columns={columns} dataSource={data} />
       <Modal
         title="Add New Unit"
         visible={isModalVisible}

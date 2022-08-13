@@ -1,63 +1,78 @@
 import { Input, Table, Select, Button, Modal, Form } from "antd";
 import React, { useState } from "react";
-// const { Option } = Select;
+const { Option } = Select;
 const { Search } = Input;
 
 const columns = [
   {
-    title: "License Number",
-    dataIndex: "license_number",
-    key: "license_number",
+    title: "Driver Name",
+    dataIndex: "driver_name",
+    key: "driver_name",
   },
   {
-    title: "Truck Type",
-    dataIndex: "truck_type",
-    key: "truck_type",
+    title: "Phone Number",
+    dataIndex: "phone_number",
+    key: "phone_number",
   },
   {
-    title: "Plate Type",
-    dataIndex: "plate_type",
-    key: "plate_type",
+    title: "Created at",
+    dataIndex: "create_at",
+    key: "create_at",
   },
   {
-    title: "Production Year",
-    key: "production_year",
-    dataIndex: "production_year",
+    title: "Status",
+    key: "status",
+    dataIndex: "status",
   },
   {
     title: "Action",
     key: "action",
     dataIndex: "action",
+    render: (_, record) => (
+      <Select
+        showSearch
+        placeholder="Update"
+        optionFilterProp="children"
+        onChange={onChange}
+        onSearch={onSearchSelect}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().includes(input.toLowerCase())
+        }
+      >
+        <Option value="update">Update</Option>
+        <Option value="delete">Delete</Option>
+      </Select>
+    ),
   },
 ];
 const data = [
   {
-    license_number: "1",
-    truck_type: "John Brown",
-    production_year: 32,
-    plate_type: "New York No. 1 Lake Park",
+    phone_number: "1",
+    driver_name: "John Brown",
+    create_at: 32,
+    status: "Active",
   },
   {
-    license_number: "2",
-    truck_type: "Jim Green",
-    production_year: 42,
-    plate_type: "London No. 1 Lake Park",
+    phone_number: "2",
+    driver_name: "Jim Green",
+    create_at: 42,
+    status: "Active",
   },
   {
-    license_number: "3",
-    truck_type: "Joe Black",
-    production_year: 32,
-    plate_type: "Sidney No. 1 Lake Park",
+    phone_number: "3",
+    driver_name: "Joe Black",
+    create_at: 32,
+    status: "Inactive",
   },
 ];
 
-// const onChange = (value) => {
-//   console.log(`selected ${value}`);
-// };
+const onChange = (value) => {
+  console.log(`selected ${value}`);
+};
 
-// const onSearchSelect = (value) => {
-//   console.log("search:", value);
-// };
+const onSearchSelect = (value) => {
+  console.log("search:", value);
+};
 
 export default function Driver() {
   const onSearch = (value) => console.log(value);
